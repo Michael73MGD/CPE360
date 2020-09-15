@@ -22,19 +22,32 @@ double wtime()
 
 #endif
 
-int mat_mult_mat (int **A, int **B, int **res, int dim)
+int ** mat_mult_mat (int **A, int **B, int **res, int dim)
 {
     int temp=0;
     for(int i=0;i<dim;i++){
         for(int j=0;j<dim;j++){
+            temp=0;
             for(int k=0;k<dim;k++){
                 temp+=A[i][k]*B[j][k];
 
             }
             res[i][j]=temp;
-            std::cout<<res[i][j]<<" ";
+            //std::cout<<res[i][j]<<" ";
         }
-        std::cout<<"\n";
+        //std::cout<<"\n";
+    }
+    return res;
+}
+
+int printMatrix (int **m, int dim){
+    for(int i=0;i<dim;i++){
+        for(int j=0;j<dim;j++){
+            std::cout<<m[i][j]<<" ";
+            if((j+1)==dim){
+                std::cout<<"\n";
+            }
+        }
     }
     return 1;
 }
@@ -42,7 +55,7 @@ int mat_mult_mat (int **A, int **B, int **res, int dim)
 
 int main(int args, char **argv)
 {
-    std::cout<<"Input: /path/to/exe dim\n";
+    //std::cout<<"Input: /path/to/exe dim\n";
 
     assert(args == 2);
 
@@ -70,14 +83,21 @@ int main(int args, char **argv)
         }
     }
 
-    
-
     double time = wtime();
-    mat_mult_mat (A, B, res, dim);
+    res = mat_mult_mat (A, B, res, dim);
     
     time = wtime () - time;
 
     std::cout<<"It takes " << time <<" seconds to finish the "<<dim<<" by "<<dim<< " matrix multiplication\n";
+
+    std::cout<<"\nPrinting A: \n";
+    printMatrix(A,dim);
+
+    std::cout<<"\nPrinting B: \n";
+    printMatrix(B,dim);
+
+    std::cout<<"\nPrinting Result: \n";
+    printMatrix(res,dim);
 
     return 1;
 
